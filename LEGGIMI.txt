@@ -1,5 +1,1 @@
-RICETTARIO DELLE OPERE 0.4
-Carica il contenuto di questa cartella nella root del repository GitHub Pages.
-Aggiorna la pagina con Ctrl+Shift+R o elimina i dati del sito se il vecchio service worker rimane in cache.
-Il calcolatore utilizza le 15 posizioni della Ruota e le soglie di Brumo. Verificare su casi di riferimento prima dell’utilizzo ufficiale.
-Il riconoscimento delle opere usa ancora le 17 ricette campione locali.
+Ricettario delle Opere v0.5. Carica tutti i file e la cartella assets nella root del repository GitHub Pages. Dati: copia locale da Creazionismo ricette tutte, schede Ricette e Iulian - Alium. Nessuna sincronizzazione automatica ancora attiva. Il repository GitHub Pages pubblico rende leggibili anche i dati incorporati.\n
