@@ -29,9 +29,54 @@ function opts(selected){return Object.keys(COLORS).map(s=>`<option ${s===selecte
 function resetParts(){const fixed=TYPES[type]||TYPES.POZIONE;parts=Array(size==='BASE'?4:size==='MEDIO'?5:6).fill('Equilibrio');parts[0]=fixed[0];parts[parts.length-1]=fixed[1]}
 function calc(){main.innerHTML=`<section class="screen"><h1 class="h">Ruota del Creazionismo</h1><p class="muted">Configura la combinazione. Il riconoscimento confronta le Fonti con le ricette note; la simulazione dei giri è ancora da validare.</p><div class="panel"><div class="filters"><select id="size"><option value="BASE">Base · 4 passaggi</option><option value="MEDIO">Media · 5 passaggi</option><option value="AVANZATO">Avanzata · 6 passaggi</option></select><select id="type">${Object.keys(TYPES).map(s=>`<option value="${s}">${s}</option>`).join('')}</select></div><div id="steps"></div></div><div id="results"></div></section>`;$('#size').value=size;$('#type').value=type;$('#size').onchange=e=>{size=e.target.value;resetParts();steps()};$('#type').onchange=e=>{type=e.target.value;resetParts();steps()};steps()}
 function steps(){$('#steps').innerHTML=parts.map((s,i)=>`<div class="step"><label>${i===0?'Apertura':i===parts.length-1?'Chiusura':'Passaggio '+(i+1)}</label><select data-i="${i}" ${i===parts.length-1?'disabled':''}>${opts(s)}</select><span class="dot" style="background:${COLORS[s]}">${SHORT[s]}</span></div>`).join('')+`<p class="muted">La chiusura è fissa: ${parts.at(-1)}, generazione 1. L'apertura è modificabile.</p>`;document.querySelectorAll('#steps select').forEach(el=>el.onchange=e=>{parts[+e.target.dataset.i]=e.target.value;steps()});results()}
-function wheel(){const rings=[61,91,121,151],colors=Object.values(COLORS);let s=`<svg class="wheel" viewBox="0 0 340 340" aria-label="Schema della ruota del creazionismo">`;rings.forEach((r,j)=>{s+=`<circle cx="170" cy="170" r="${r}" fill="none" stroke="#9e8d69" stroke-width="2"/>`;for(let k=0;k<12;k++){let a=(k/12)*Math.PI*2-Math.PI/2,x=170+Math.cos(a)*r,y=170+Math.sin(a)*r;s+=`<circle cx="${x}" cy="${y}" r="9" fill="${colors[(k+j*2)%6]}" stroke="#efe1c5" stroke-width="2"/>`}});s+=`<circle cx="170" cy="170" r="38" fill="#192729" stroke="#c5aa73" stroke-width="3"/><text x="170" y="175" fill="#e6cc96" text-anchor="middle" font-size="13">RUOTA</text></svg>`;return s}
+// Ruota: trascrizione esatta delle 15 posizioni per generazione dal foglio "Ruota".
+const WHEEL_ROWS=[
+['—','EQ','—','EN','FO','CA','MA','SP','—','EQ','MA','EN','CA','SP','FO'],
+['EN','—','FO','EQ','SP','—','FO','MA','EQ','CA','—','EN','SP','CA','MA'],
+['CA','FO','—','MA','EN','—','EQ','SP','EQ','SP','MA','—','CA','FO','EN'],
+['MA','—','EN','—','CA','EQ','—','EN','MA','FO','CA','EQ','SP','SP','FO']
+];
 const GENPATHS={BASE:[[4,3,2,1],[2,3,2,1],[2,1,2,1]],MEDIO:[[1,2,1,2,1],[1,2,3,2,1],[3,2,1,2,1],[3,2,3,2,1],[3,4,3,2,1]],AVANZATO:[[2,1,2,1,2,1],[2,1,2,3,2,1],[2,3,2,1,2,1],[2,3,2,3,2,1],[2,3,4,3,2,1],[4,3,2,1,2,1],[4,3,2,3,2,1],[4,3,4,3,2,1]]};
-function results(){let match=RECIPES.filter(r=>r.level===size&&r.type===type&&r.parts.length===parts.length&&r.parts.every((s,i)=>s===parts[i]));let art=['RUNA','PERGAMENA','GRIMORIO'].includes(type);let paths=GENPATHS[size];$('#results').innerHTML=`<h2 class="h">Risultati</h2><div class="panel"><div class="line"><b>Opera prevista</b><span class="badge ${match.length?'':'unknown'}">${match.length?'Scoperta':'Sconosciuta'}</span></div><p>${match.length?esc(match[0].name):'Opera non identificata'}</p><p class="muted">${match.length?esc(match[0].effect):'Nessun effetto identificato nel campione di ricette importato.'}</p>${art?'<p class="warning">Artimagia: validità da verificare.</p>':''}</div><p class="muted">Sequenze di generazioni previste dalle regole. Le 10 soluzioni più economiche saranno mostrate dopo la verifica del conteggio: mancano le lavorazioni esatte della Ruota.</p>${paths.slice(0,10).map((gens,i)=>`<details class="recipe"><summary><div class="line"><span class="name">Percorso ${i+1}</span><span class="tag">${gens.length} passaggi</span></div><p class="muted">Generazioni: ${gens.join(' → ')}</p>${dots(parts)}</summary><div class="genlist">${gens.map((g,j)=>`<div><b>${j+1}.</b> ${esc(parts[j])} · Gen. ${g}</div>`).join('')}</div>${wheel()}<p class="warning">La ruota qui è schematica: posizioni, quantità e lavorazioni sono ancora da verificare con il calcolatore di Brumo.</p></details>`).join('')}<p class="muted">Nella versione definitiva appariranno soltanto le 10 ricette con meno ingredienti, ordinate in base al calcolo effettivo.</p>`}
+const PER_STEP={1:3,2:6,3:9,4:12};
+function permutations(a){if(a.length<2)return[a];return a.flatMap((x,i)=>permutations(a.filter((_,j)=>j!==i)).map(p=>[x,...p]))}
+function scanTo(source,gen,from){const row=WHEEL_ROWS[gen-1];let first=-1,second=-1;
+  for(let step=1;step<=30;step++){
+    let pos=from===0?((step-1)%15):((from+step-1)%15);
+    if(row[pos]===SHORT[source]){if(first<0)first=step;else{second=step;break}}
+  }
+  if(first<0||second<0)return null;
+  return [first,second];
+}
+function candidate(seq,gens,choices){let pos=0,total=0,works=0,steps=[];
+  for(let i=0;i<seq.length;i++){
+    const g=gens[i],find=scanTo(seq[i],g,pos);if(!find)return null;
+    const w=find[choices[i]-1];if(w<1||w>15)return null;
+    pos=(pos+w-1)%15+1;
+    const qty=Math.ceil(w/PER_STEP[g]);total+=qty;works+=w;
+    steps.push({source:seq[i],gen:g,work:w,qty,arrival:pos,choice:choices[i]});
+  }
+  return {total,works,steps,gens,seq};
+}
+function computeTop10(sources,level){const gensList=GENPATHS[level],centers=sources.slice(1,-1),orders=permutations(centers.map((_,i)=>i));
+ const best=[];let count=0;
+ for(const gens of gensList)for(const order of orders){const seq=[sources[0],...order.map(i=>centers[i]),sources.at(-1)];
+   for(let mask=0;mask<(1<<seq.length);mask++){
+     const choices=seq.map((_,i)=>((mask>>i)&1)+1),c=candidate(seq,gens,choices);
+     if(!c)continue;count++;best.push(c);
+   }
+ }
+ best.sort((a,b)=>a.total-b.total||a.works-b.works||a.gens.join('').localeCompare(b.gens.join('')));
+ return {best:best.slice(0,10),count};
+}
+function results(){
+ const recognized=RECIPES.filter(r=>r.level===size&&r.type===type&&r.parts.length===parts.length&&r.parts[0]===parts[0]&&r.parts.at(-1)===parts.at(-1)&&r.parts.slice(1,-1).slice().sort().join('|')===parts.slice(1,-1).slice().sort().join('|'));
+ const art=['RUNA','PERGAMENA','GRIMORIO'].includes(type);
+ const {best,count}=computeTop10(parts,size);
+ $('#results').innerHTML=`<h2 class="h">Le 10 soluzioni più economiche</h2><div class="panel"><div class="line"><b>${recognized.length?esc(recognized[0].name):'Opera non identificata'}</b><span class="badge ${recognized.length?'':'unknown'}">${recognized.length?'Scoperta':'Sconosciuta'}</span></div><p class="muted">${recognized.length?esc(recognized[0].effect):'Nessun effetto noto nel ricettario locale importato.'}</p>${art?'<p class="warning">Artimagia: validità del sistema ancora da verificare.</p>':''}<p class="muted">Le Fonti centrali possono essere riordinate. La chiusura è sempre in generazione 1.</p></div>
+ <p class="muted">${count} percorsi calcolabili · ordinati per quantità di ingredienti, poi per numero totale di lavorazioni. Conteggi ricavati dalle tabelle «Ruota» e «Regole» di Brumo; da confrontare con i risultati del foglio originale.</p>
+ ${best.length?best.map((c,i)=>`<details class="recipe"><summary><div class="result-heading"><span class="name">${i+1}. Soluzione</span><span class="tag">${c.total} ingredienti · ${c.works} lavorazioni</span></div><div class="muted">Gen. ${c.gens.join(' → ')}</div>${dots(c.seq)}</summary><div class="calc-stats"><div><strong>${c.total}</strong><small>Ingredienti totali</small></div><div><strong>${c.works}</strong><small>Lavorazioni totali</small></div></div><div class="work-list">${c.steps.map((s,j)=>`<div><b>${j+1}. ${esc(s.source)} · Gen. ${s.gen}</b><p>${s.qty} ingredienti · ${s.work} lavorazioni</p><small>Pallino ${s.arrival} · ${s.choice}° occorrenza</small></div>`).join('')}</div><img class="wheel-original" src="assets/ruota-originale.png" alt="Ruota originale del Creazionismo fornita dall'autore"><p class="notice">La ruota mostrata è l'immagine originale. La posizione di arrivo di ogni passaggio è indicata sopra. La sovrapposizione grafica del percorso è prevista in un successivo aggiornamento.</p></details>`).join(''):'<div class="notice">Nessun percorso calcolabile con le regole attuali. Questo non dimostra che l’opera sia impossibile.</div>'}
+ <p class="notice">Nota: i calcoli sono una trasposizione delle regole di Brumo, non ancora certificata da un confronto sistematico per tutte le combinazioni. Il riconoscimento delle scoperte usa ancora il campione locale, non l’intero foglio Google.</p>`;
+}
 function alium(){main.innerHTML=`<section class="screen"><h1 class="h">Archivio dell'Alium</h1><p class="muted">Prime combinazioni note dalla scheda “Lista alium ordinata”.</p><input id="aq" type="search" placeholder="Cerca gemma o effetto…"><div id="alist"></div></section>`;$('#aq').oninput=filterAlium;filterAlium()}
 function filterAlium(){let q=$('#aq').value.toLowerCase();let a=ALIUM.filter(x=>(x.name+' '+x.effect).toLowerCase().includes(q));$('#alist').innerHTML=`<p class="counter">${a.length} combinazioni visualizzate</p>`+a.map(x=>`<details class="recipe"><summary><div class="line"><span class="name">◇ ${esc(x.name)}</span><span class="tag">Gen. ${x.gen}</span></div><div class="muted">Alium · ${x.e1} · ${x.e2}</div></summary><p class="info">${esc(x.effect)}</p></details>`).join('')}
 function render(){({home,recipes,calc,alium}[tab])()}resetParts();render();if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});

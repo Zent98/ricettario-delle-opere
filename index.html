@@ -17,4 +17,19 @@
 @keyframes crestFloat{to{transform:translateY(-8px)}}@keyframes solarisFloat{to{transform:translate(-50%,-54%)}}
 @media(prefers-reduced-motion:reduce){.crest,.sun{animation:none}}
 @media(max-width:370px){.crest{width:65px;height:100px}.c1,.c3{left:1%}.c2,.c4{right:1%}.sun{top:37%}}
-</style></head><body><div class="app"><div class="top"><div class="brand">✦ Ricettario delle Opere</div><span class="tiny">PROTOTIPO 0.3 · OFFLINE</span></div><nav class="nav"><button data-tab="home" class="active">⌂ Home</button><button data-tab="recipes">▤ Ricette</button><button data-tab="calc">◎ Calcolatore</button><button data-tab="alium">◇ Alium</button></nav><main id="main"></main><footer class="foot">Bollaverde · Prototipo personale · Dati dimostrativi estratti dai fogli originali</footer></div><script src="app.js"></script></body></html>
+
+/* 0.4: trasparenza reale degli stemmi, senza pannelli neri */
+.crest,.sun,.crest img,.sun img{background:transparent!important;box-shadow:none!important;border:0!important;overflow:visible!important}
+.crest img,.sun img{object-fit:contain!important}
+.hero-title{pointer-events:none}.crest{z-index:3}
+.wheel-original{width:min(100%,460px);display:block;margin:12px auto;border-radius:10px;background:#f5f0e8}
+.calc-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}
+.calc-stats>div{border:1px solid #62573e;border-radius:10px;padding:10px;background:#122023}
+.calc-stats strong{display:block;color:#f0d18f;font-size:21px}
+.calc-stats small{font-size:11px;color:#c1b8a7}
+.result-heading{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.work-list{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;font-size:12px;margin-top:12px}
+.work-list div{background:#101b1e;padding:8px;border-radius:7px}
+.work-list b{color:#ebcf90}
+.notice{padding:12px;border-left:3px solid #bda66f;background:#2a291e;color:#e3d4b6;font-size:12px;line-height:1.5}
+</style></head><body><div class="app"><div class="top"><div class="brand">✦ Ricettario delle Opere</div><span class="tiny">VERSIONE 0.4 · OFFLINE</span></div><nav class="nav"><button data-tab="home" class="active">⌂ Home</button><button data-tab="recipes">▤ Ricette</button><button data-tab="calc">◎ Calcolatore</button><button data-tab="alium">◇ Alium</button></nav><main id="main"></main><footer class="foot">Bollaverde · Versione personale · Calcoli basati sulle tabelle Ruota e Regole · Verifica consigliata</footer></div><script src="app.js"></script></body></html>

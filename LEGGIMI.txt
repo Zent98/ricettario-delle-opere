@@ -1,9 +1,5 @@
-Ricettario delle Opere v0.3
-
-Caricare il CONTENUTO di questa cartella nella cartella ricettario-opere del repository GitHub, oppure nella root se si vuole correggere il percorso.
-
-Novita: castello fantasy digitale, 5 stemmi PNG con trasparenza, nessun nome sotto gli stemmi, aura luminosa.
-
-Il calcolatore NON ha ancora il conteggio affidabile di ingredienti/lavorazioni: non considerare le sequenze come le 10 piu economiche.
-
-La sincronizzazione automatica Google Sheets non e ancora attiva.
+RICETTARIO DELLE OPERE 0.4
+Carica il contenuto di questa cartella nella root del repository GitHub Pages.
+Aggiorna la pagina con Ctrl+Shift+R o elimina i dati del sito se il vecchio service worker rimane in cache.
+Il calcolatore utilizza le 15 posizioni della Ruota e le soglie di Brumo. Verificare su casi di riferimento prima dell’utilizzo ufficiale.
+Il riconoscimento delle opere usa ancora le 17 ricette campione locali.
