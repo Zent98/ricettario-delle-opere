@@ -1,16 +1,7 @@
-RICETTARIO DELLE OPERE — PROTOTIPO 0.1
+RICETTARIO DELLE OPERE v0.2
 
-Per avviare sul computer: apri un terminale in questa cartella ed esegui:
-python -m http.server 8000
-Poi visita http://localhost:8000
+Caricare il CONTENUTO di questa cartella nella root del repository GitHub, non la cartella stessa.
 
-Per installarlo sul telefono serve pubblicare questa cartella su un hosting HTTPS (es. GitHub Pages o Netlify). Solo allora il service worker abilita il funzionamento offline e l'installazione PWA.
+NOVITA: stemmi digitalizzati; selezione Base/Media/Avanzata; percorsi generazionali tratti da Regole.
 
-STATO DEL PROTOTIPO
-- Home navigabile con illustrazione del castello dal Tomo III. Gli stemmi sono ancora segnaposto grafici, non gli stemmi originali.
-- Ricettario con 17 ricette campione realmente lette dal foglio Ricette, non l'intero archivio.
-- Archivio Alium con 22 combinazioni lette dal foglio Lista alium ordinata.
-- Calcolatore: selezione tipologia/taglia/fonti, chiusura bloccata, riconoscimento esatto delle ricette campione, pannelli espandibili.
-- La ruota è solo una rappresentazione grafica preliminare: i calcoli di lavorazioni e i giri reali non sono ancora implementati.
-- Nessuna sincronizzazione automatica con Drive in questa versione: i dati sono inclusi nel codice e utilizzabili offline dopo il primo caricamento.
-- Nessun foglio Google originale è stato modificato.
+IMPORTANTE: non e ancora il calcolatore completo. I percorsi sono quelli ammessi dal foglio Regole, non sono ordinati per ingredienti e non calcolano lavorazioni esatte. Le 10 ricette ottimali richiedono la trasposizione verificata del foglio Brumo. Ricette e Alium restano campioni locali. Nessuna sincronizzazione automatica con Sheets e ancora attiva.
