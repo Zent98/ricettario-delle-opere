@@ -1,7 +1,9 @@
-RICETTARIO DELLE OPERE v0.2
+Ricettario delle Opere v0.3
 
-Caricare il CONTENUTO di questa cartella nella root del repository GitHub, non la cartella stessa.
+Caricare il CONTENUTO di questa cartella nella cartella ricettario-opere del repository GitHub, oppure nella root se si vuole correggere il percorso.
 
-NOVITA: stemmi digitalizzati; selezione Base/Media/Avanzata; percorsi generazionali tratti da Regole.
+Novita: castello fantasy digitale, 5 stemmi PNG con trasparenza, nessun nome sotto gli stemmi, aura luminosa.
 
-IMPORTANTE: non e ancora il calcolatore completo. I percorsi sono quelli ammessi dal foglio Regole, non sono ordinati per ingredienti e non calcolano lavorazioni esatte. Le 10 ricette ottimali richiedono la trasposizione verificata del foglio Brumo. Ricette e Alium restano campioni locali. Nessuna sincronizzazione automatica con Sheets e ancora attiva.
+Il calcolatore NON ha ancora il conteggio affidabile di ingredienti/lavorazioni: non considerare le sequenze come le 10 piu economiche.
+
+La sincronizzazione automatica Google Sheets non e ancora attiva.
