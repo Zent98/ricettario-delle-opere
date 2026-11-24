@@ -1,6 +1,6 @@
-const CACHE='ravnash-shell-0138';
+const CACHE='ravnash-shell-0140';
 const SDK='https://www.gstatic.com/firebasejs/13.4.0/';
-const FILES=['./','./index.html','./app.js?v=0138','./auth.js?v=0138','./manifest.webmanifest','./icon.svg',...['castello-digitale.webp','castello.jpg','luxia.png','morker.png','rivargento.png','ruota-originale.png','solaris.png','solcarune.png'].map(x=>'./assets/'+x),...['firebase-app.js','firebase-auth.js','firebase-firestore.js'].map(x=>SDK+x)];
+const FILES=['./','./index.html','./app.js?v=0140','./auth.js?v=0140','./manifest.webmanifest','./icon.svg',...['castello-digitale.webp','castello.jpg','luxia.png','morker.png','rivargento.png','ruota-originale.png','solaris.png','solcarune.png'].map(x=>'./assets/'+x),...['firebase-app.js','firebase-auth.js','firebase-firestore.js'].map(x=>SDK+x)];
 self.addEventListener('install',e=>e.waitUntil((async()=>{const c=await caches.open(CACHE);await c.addAll(FILES);await self.skipWaiting()})()));
 self.addEventListener('activate',e=>e.waitUntil((async()=>{for(const k of await caches.keys())if(k.startsWith('ravnash-shell-')&&k!==CACHE)await caches.delete(k);await self.clients.claim()})()));
 self.addEventListener('fetch',e=>{const u=new URL(e.request.url);if(e.request.method!=='GET')return;if(e.request.mode==='navigate'&&u.origin===location.origin){e.respondWith(fetch(e.request).catch(()=>caches.match('./index.html')));return}if(!(u.origin===location.origin||u.href.startsWith(SDK)))return;e.respondWith((async()=>{const c=await caches.open(CACHE);const hit=await c.match(e.request);if(hit)return hit;const r=await fetch(e.request);if(r.ok)await c.put(e.request,r.clone());return r})())});
