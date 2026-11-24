@@ -1,1 +1,1 @@
-Versione 0.10: test autenticazione online. Nessun archivio incluso. Non caricare il JSON privato su GitHub. Editor e sincronizzazione non attivi. Rimuovere vecchi file dati e cronologia pubblica prima della distribuzione.
+Versione 0.12 - collaudo protetto. Mantenere ENABLE_WRITES=false. Nessun archivio privato incluso. Sincronizzazione inversa e campi derivati ancora da completare.
