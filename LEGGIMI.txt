@@ -1,15 +1,1 @@
-RICETTARIO DELLE OPERE · VERSIONE 0.6
-Carica i file direttamente nella cartella principale del repository GitHub Pages.
-
-NUOVO: filtri TEORIA, ricette Tradizionali/Alium nella stessa sezione, Ingredienti,
-Fonti colorate e generazioni, frecce delle lavorazioni, Home senza pulsanti interni.
-
-SINCRONIZZAZIONE: il file sync-config.json contiene readOnlyDataUrl vuoto.
-Quando sara' disponibile un endpoint HTTPS autorizzato che restituisca JSON con
-recipes, alium, ingredients, inserirne l'URL in readOnlyDataUrl. L'app controllerà
-all'apertura, al ritorno in primo piano e al ritorno online; mantiene l'ultima
-copia in memoria locale e i dati incorporati come fallback offline.
-
-EDITOR: non ancora abilitato. Una password in JavaScript pubblico non offre
-sicurezza; richiede autenticazione e verifica server-side. Non inserire password
-nei file GitHub. Nessun file Excel originale è stato modificato.
+Versione 0.10: test autenticazione online. Nessun archivio incluso. Non caricare il JSON privato su GitHub. Editor e sincronizzazione non attivi. Rimuovere vecchi file dati e cronologia pubblica prima della distribuzione.
